@@ -18,13 +18,13 @@ pilot_2018 = pilot_2018
 # Constructing series from 2018 pilot file ----
     #* Vote choice ----
 voteDem = pilot_2018 |>
-    select(house18p, year) |>
+    select(house18p) |>
     mutate(house18p = case_when(house18p == 1 ~ 1,
                                 house18p == 2 ~ 0)) |>
     summarize(voteDem = mean(house18p, na.rm = TRUE))
     #* pid ----
 pid = pilot_2018 |>
-    select(pid1r, pid1d, pidstr, pidlean, year) |>
+    select(pid1r, pid1d, pidstr, pidlean) |>
     mutate(pid = case_when(pid1d == 3 | pid1d == 4 | pid1r == 3 | pid1d == 4 & pidlean == 3 ~ 0, #report indpendent or something else and report not close to either; true independent
                           pid1d == 3 | pid1d == 4 | pid1r == 3 | pid1d == 4 & pidlean == 2 ~ 1, #report independent or something else and report closer to democrats; lean democrat
                           pid1d == 3 | pid1d == 4 | pid1r == 3 | pid1d == 4 & pidlean == 1 ~ -1, #report independent or something else and report closer to republicans; lean republican

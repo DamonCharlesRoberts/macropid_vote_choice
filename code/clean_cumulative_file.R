@@ -10,7 +10,8 @@
 #install.packages('box')#package used for modularly loading functions
 library(anesr)
 box::use(
-    dplyr = dplyr[rename, select, mutate, case_when, group_by, summarize]
+    dplyr = dplyr[rename, select, mutate, case_when, group_by, summarize, full_join],
+    purrr = purrr[reduce]
 )
     #* Load ANES time series cumulative file ----
 data(timeseries_cum)
@@ -57,3 +58,8 @@ hispanic = timeseries_cum |>
     mutate(VCF0105b = ifelse(VCF0105b == 3, 1, 0)) |>
     group_by(year) |>
     summarize(race = mean(VCF0105b, na.rm = TRUE))
+
+# Save the data ----
+tsList = list(voteDem, pid, ideo, female, white, black, hispanic)
+combinedCumulative = tsList |>
+    reduce(full_join, by = 'year')
