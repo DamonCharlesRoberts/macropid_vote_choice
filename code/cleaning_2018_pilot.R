@@ -6,22 +6,16 @@
     #* Updated by: dcr
 
 # Setup: ----
-    #* Modularly load functions from packages ----
-#install.packages('box')#package used for modularly loading functions
-library(anesr)
-box::use(
-    dplyr = dplyr[rename, select, mutate, case_when, group_by, summarize]
-)
     #* Load ANES 2018 pilot file ----
 data(pilot_2018)
-pilot_2018 = pilot_2018
 # Constructing series from 2018 pilot file ----
     #* Vote choice ----
 voteDem = pilot_2018 |>
     select(house18p) |>
     mutate(house18p = case_when(house18p == 1 ~ 1,
                                 house18p == 2 ~ 0)) |>
-    summarize(voteDem = mean(house18p, na.rm = TRUE))
+    summarize(voteDem = mean(house18p, na.rm = TRUE)) |>
+    mutate(year = 2018)
     #* pid ----
 pid = pilot_2018 |>
     select(pid1r, pid1d, pidstr, pidlean) |>
@@ -33,28 +27,39 @@ pid = pilot_2018 |>
                           pid1d == 2 | pid1r == 2 & pidstr == 2 ~ -1, #report republican and report not very strong
                           pid1d == 2 | pid1r == 2 & pidstr == 1 ~ -2 #report republican and report strong
                           )) |>
-    summarize(pid = mean(pid, na.rm = TRUE))
+    summarize(pid = mean(pid, na.rm = TRUE)) |>
+    mutate(year = 2018)
     #* ideology ----
 ideo = pilot_2018 |>
     select(lcself) |>
     mutate(lcself = ifelse(lcself < 0, NA, lcself)) |>
-    summarize(ideo = mean(lcself, na.rm = TRUE))
+    summarize(ideo = mean(lcself, na.rm = TRUE)) |>
+    mutate(year = 2018)
     #* gender ----
 female = pilot_2018 |>
     select(gender) |>
     mutate(female = case_when(gender == 1 ~ 0,
                             gender == 2 ~ 1)) |>
-    summarize(ideo = mean(female, na.rm = TRUE))
+    summarize(female = mean(female, na.rm = TRUE)) |>
+    mutate(year = 2018)
     #* race ----
 white = pilot_2018 |>
     select(race) |>
     mutate(white = ifelse(race == 1, 1, 0)) |>
-    summarize(white = mean(white, na.rm = TRUE))
+    summarize(white = mean(white, na.rm = TRUE)) |>
+    mutate(year = 2018)
 black = pilot_2018 |>
     select(race) |>
     mutate(black = ifelse(race == 2, 1, 0)) |>
-    summarize(black = mean(black, na.rm = TRUE))
+    summarize(black = mean(black, na.rm = TRUE)) |>
+    mutate(year = 2018)
 hispanic = pilot_2018 |>
     select(race) |>
     mutate(hispanic = ifelse(race == 3, 1, 0)) |>
-    summarize(hispanic = mean(hispanic, na.rm = TRUE))
+    summarize(hispanic = mean(hispanic, na.rm = TRUE)) |>
+    mutate(year = 2018)
+
+# Save the data ----
+tsList = list(voteDem, pid, ideo, female, white, black, hispanic)
+combined18 = tsList |>
+    reduce(full_join, by = 'year')

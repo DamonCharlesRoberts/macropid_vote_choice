@@ -6,15 +6,8 @@
     #* Updated by: dcr
 
 # Setup: ----
-    #* Modularly load functions from packages ----
-#install.packages('box')#package used for modularly loading functions
-library(anesr)
-box::use(
-    dplyr = dplyr[rename, select, mutate, case_when, group_by, summarize, full_join],
-    purrr = purrr[reduce]
-)
     #* Load ANES time series cumulative file ----
-data(timeseries_cum)
+timeseries_cum = read.csv('data/anes_cumulative.csv')
 timeseries_cum = timeseries_cum |>
     rename(year = VCF0004)
 # Constructing series from cumulative file ----
@@ -41,23 +34,23 @@ female = timeseries_cum |>
     mutate(VCF0104 = case_when(VCF0104 == 1 ~ 0,
                                 VCF0104 == 2 ~ 1)) |>
     group_by(year) |>
-    summarize(gender = mean(VCF0104, na.rm = TRUE))
+    summarize(female = mean(VCF0104, na.rm = TRUE))
     #* race ----
 white = timeseries_cum |>
     select(VCF0105b, year) |>
     mutate(VCF0105b = ifelse(VCF0105b == 1, 1, 0)) |>
     group_by(year) |>
-    summarize(race = mean(VCF0105b, na.rm = TRUE))
+    summarize(white = mean(VCF0105b, na.rm = TRUE))
 black = timeseries_cum |>
     select(VCF0105b, year) |>
     mutate(VCF0105b = ifelse(VCF0105b == 2, 1, 0)) |>
     group_by(year) |>
-    summarize(race = mean(VCF0105b, na.rm = TRUE))
+    summarize(black = mean(VCF0105b, na.rm = TRUE))
 hispanic = timeseries_cum |>
     select(VCF0105b, year) |>
     mutate(VCF0105b = ifelse(VCF0105b == 3, 1, 0)) |>
     group_by(year) |>
-    summarize(race = mean(VCF0105b, na.rm = TRUE))
+    summarize(hispanic = mean(VCF0105b, na.rm = TRUE))
 
 # Save the data ----
 tsList = list(voteDem, pid, ideo, female, white, black, hispanic)
