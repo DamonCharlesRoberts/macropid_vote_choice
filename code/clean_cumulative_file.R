@@ -1,4 +1,4 @@
-# Title: Constructing macropartisanship ----
+# Title: Cleaning the ANES Cumulative file 1948 - 2020 ----
 
 # Notes: ----
     #* Description: script for loading anes cumulative time series and then converting it into macropartisan and macro-vote choice series ----
@@ -52,7 +52,7 @@ hispanic = timeseries_cum |>
     group_by(year) |>
     summarize(hispanic = mean(VCF0105b, na.rm = TRUE))
 
-# Save the data ----
+# Merging the series ----
 tsList = list(voteDem, pid, ideo, female, white, black, hispanic)
 combinedCumulative = tsList |>
     reduce(full_join, by = 'year')
