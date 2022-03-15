@@ -17,8 +17,11 @@ box::use(
     #* Sourcing cleaning scripts ----
 source('code/clean_cumulative_file.R')
 source('code/cleaning_2006_cces.R')
+source('code/cleaning_2010_cces.R')
 source('code/cleaning_2018_pilot.R')
 
     #* Append the datasets ----
-combined = bind_rows(combinedCumulative, combined06, combined18) |>
+combined = bind_rows(combinedCumulative, combined06, combined10, combined18) |>
     arrange(year)
+
+print('ALL merging and cleaning complete!')
