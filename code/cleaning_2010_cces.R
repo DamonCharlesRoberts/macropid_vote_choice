@@ -75,4 +75,4 @@ tsList = list(voteDem, pid, ideo, female, white, black, hispanic, approval, educ
 combined10 = tsList |>
     reduce(full_join, by = 'year')
 
-print('2010 CCES Cleaning Complete')
+print('2010 CCES Cleaning Complete') # let me know this code has finished runnning

@@ -76,4 +76,4 @@ tsList = list(voteDem, pid, ideo, female, white, black, hispanic, approval, educ
 combinedCumulative = tsList |>
     reduce(full_join, by = 'year')
 
-print('ANES Cumulative File Cleaning Complete')
+print('ANES Cumulative File Cleaning Complete') # let me know that this code has finished running

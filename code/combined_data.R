@@ -8,7 +8,6 @@
 # Setup: ----
     #* Modularly load functions from packages ----
 #install.packages('box')#package used for modularly loading functions
-library(anesr)
 box::use(
     haven = haven[read_dta],
     dplyr = dplyr[rename, select, mutate, case_when, group_by, summarize, full_join, bind_rows, arrange],

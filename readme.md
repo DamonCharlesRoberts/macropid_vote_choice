@@ -12,8 +12,14 @@
 </p>
 
 --- 
-Analysis of interruptions of nominees for federal judiciary positions.
 
+Analysis of the predictive capacity of macro-partisanship for vote choice relative to other features
 ## Academic project
 
-# Code
+# Files
+code/clean_cumulative_file.R: Cleans the ANES cumulative file
+code/cleaning_2006_cces.R: Cleans the 2006 CCES
+code/cleaning_2010_cces.R: Cleans the 2010 CCES
+code/cleaning_2018_pilot.R: Cleans the 2018 ANES Pilot study
+code/combined_data.R: Merge together all of the cleaned datasets
+code/primary_analysis.R: Performs the data analysis for the project

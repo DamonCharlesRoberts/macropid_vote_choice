@@ -7,7 +7,7 @@
 
 # Setup: ----
     #* Load ANES 2018 pilot file ----
-data(pilot_2018)
+pilot_2018 = read.csv('data/anes_pilot_2018.csv')
 # Constructing series from 2018 pilot file ----
     #* Vote choice ----
         #** Coded as: 1 - voted for democratic house candidate; 0 voted fro republican house candidate
@@ -82,4 +82,4 @@ tsList = list(voteDem, pid, ideo, female, white, black, hispanic, approval, educ
 combined18 = tsList |>
     reduce(full_join, by = 'year')
 
-print('2018 ANES Pilot Cleaning Complete')
+print('2018 ANES Pilot Cleaning Complete') # let me know this code has finished running
