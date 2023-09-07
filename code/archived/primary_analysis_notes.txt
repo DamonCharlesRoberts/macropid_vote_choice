@@ -1,0 +1,43 @@
+# Analysis Notes:
+    #* Unit Root Tests:
+        #** PID
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** Ideology
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** Female
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** White
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** Black
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** Approve
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+        #** Education
+- Looks like it is I(1) but is I(0) with a first difference. Have Fractional Integration
+
+    #* This all means I'd have a model like this to start....
+\delta vote = \alpha + \delta pid + \delta ideology + \delta female + \delta white + \delta black + \delta approve + \delta education + \epsilon
+
+    #* Do I have autocorrelation with this general model?
+Yes. I need to sort out who needs to have a lagged first difference... After running the model vote = IV_i for each independent variable, I know that it is the vote and pid variable that need lagged first differences to get rid of my autocorrelation. Without first ensuring that my errors are well-behaved, I cannot rely on cointegration tests to tell me whether this long-run effect is stable. 
+
+    #* After including the lagged first differences of my vote and pid variable, I throw all of it back into the model
+\delta vote = \alpha + \delta vote_{t-1} + \delta pid + \delta pid_{t-1} + \delta ideology + \delta female + \delta white + \delta black + \delta approve + \delta education + \epsilon
+
+    #* Now specify a ECM and check for cointegration:
+\delta vote = \alpha + vote_{t-1} + \delta vote_{t-1} + \delta pid + \delta pid_{t-1} + pid_{t-1} + \delta ideology + \delta female + \delta white + \delta black + \delta approve + \delta education + \epsilon
+
+Looks like I do not have cointegration once I have ensured that the autocorrelation has been taken care of. 
+
+    #* Get out of ECM form and just use the model with the lagged first differences and first differences. Do not calculate just the lags of vote and pid for my long-run effect
+\delta vote = \alpha + \delta vote_{t-1} + \delta pid + \delta pid_{t-1} + \delta ideology + \delta female + \delta white + \delta black + \delta approve + \delta education + \epsilon
+
+    #* This model will need to be compared with this:
+\delta vote = \alpha + \delta vote_{t-1} + \delta pid + \delta pid_{t-1} + \epsilon
+
+    #* Since this is pooled individual level data, I probably have fractional cointegration
+        #* A Partial Variance ratio test tells me that I do likely have some positive serial autocorrelation. And I have this for all of my variables.
+        #* Next I estimate d (the degree of fractional differencing I should do) for each of my variables.
+        #* Since I am interested in comparing two competing arguments, I should consider forecasting with an FIECM model. 
+
+        
